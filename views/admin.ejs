@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Admin List</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-dark">
+    <h1 class="text-center p-5 text-light">Admin List</h1>
+    <div class="container">
+        <table class="table table-dark table-striped">
+            <thead>
+                <tr>
+                    <th>Name</th>
+                    <th>Email</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% admins.forEach(admin => { %>
+                    <tr>
+                        <td><%= admin.username %></td>
+                        <td><%= admin.email %></td>
+                        <td>
+                            <form action="/logout" method="POST" style="display:inline;">
+                                <button type="submit" class="btn btn-danger">Logout</button>
+                            </form>
+                            
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#changePasswordModal<%= admin._id %>">
+                                Change Password
+                            </button>
+                            <div class="modal fade" id="changePasswordModal<%= admin._id %>" tabindex="-1" aria-labelledby="changePasswordModalLabel" aria-hidden="true">
+                                <div class="modal-dialog">
+                                    <div class="modal-content">
+                                        <div class="modal-header text-dark">
+                                            <h5 class="modal-title" id="changePasswordModalLabel">Change Password for <%= admin.username %></h5>
+                                            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                                                <span aria-hidden="true">&times;</span>
+                                            </button>
+                                        </div>
+                                        <div class="modal-body text-dark">
+                                            <form action="/change-password" method="POST">
+                                                <div class="form-group">
+                                                    <label for="currentPassword">Current Password</label>
+                                                    <input type="password" class="form-control" name="currentPassword" required>
+                                                </div>
+                                                <div class="form-group">
+                                                    <label for="newPassword">New Password</label>
+                                                    <input type="password" class="form-control" name="newPassword" required>
+                                                </div>
+                                                <input type="hidden" name="id" value="<%= admin._id %>">
+                                                <button type="submit" class="btn btn-primary">Change Password</button>
+                                            </form>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </td>
+                    </tr>
+                <% }); %>
+            </tbody>
+        </table>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
